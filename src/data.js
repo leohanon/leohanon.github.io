@@ -56,7 +56,7 @@ export const experience = [
     blurb: "Joined Command AI, an AI chat and in-app assistant company, shortly before Amplitude acquired it.",
     bullets: [
       "Ported Command AI's AI assistant, including the model layer, into Amplitude after the acquisition.",
-      "Built ~10 CRM and helpdesk integrations (Salesforce, Zendesk and more) so the AI could chat through them, and ingested their help docs into a vector database for retrieval.",
+      "Built ~10 CRM and help-center integrations (Salesforce, Zendesk and more) so the AI could chat through them and live-sync each customer's own help articles into a vector database, giving it context on their business.",
     ],
     stack: ["AI chat", "CRM integrations", "Vector search"],
   },
