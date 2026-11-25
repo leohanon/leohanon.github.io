@@ -86,10 +86,11 @@ a { color: var(--accent); text-underline-offset: 0.15em; }
   letter-spacing: -0.02em;
 }
 .hero-title { margin: 0; font-size: 1.15rem; color: var(--muted); font-weight: 600; }
-.hero-summary { max-width: 46rem; font-size: 1.1rem; margin: 1.25rem 0 1.5rem; text-wrap: pretty; }
+.hero-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.9rem; }
+.hero-summary { max-width: 46rem; font-size: 1.1rem; margin: 1rem 0 0; text-wrap: pretty; }
 .hero-links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .hero-links a {
-  padding: 0.45rem 1rem;
+  padding: 0.3rem 0.85rem; font-size: 0.9rem;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface);

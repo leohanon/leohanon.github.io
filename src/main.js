@@ -26,11 +26,13 @@ function header() {
   return `
   <header class="hero">
     <h1>${esc(person.name)}</h1>
-    <p class="hero-title">${esc(person.title)} · ${esc(person.location)}</p>
+    <div class="hero-meta">
+      <p class="hero-title">${esc(person.title)} · ${esc(person.location)}</p>
+      <nav class="hero-links" aria-label="Profiles">
+        ${person.links.map((l) => `<a href="${l.href}">${esc(l.label)}</a>`).join("")}
+      </nav>
+    </div>
     <p class="hero-summary">${esc(person.summary)}</p>
-    <nav class="hero-links" aria-label="Contact">
-      ${person.links.map((l) => `<a href="${l.href}">${esc(l.label)}</a>`).join("")}
-    </nav>
   </header>`;
 }
 
