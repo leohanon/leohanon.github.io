@@ -99,9 +99,13 @@ function timelineTrack(variant) {
       </div>`;
 }
 
+// The full timeline scrolls away normally. Right after it sits a zero-height sticky
+// "dock": it takes no space in the page, so nothing ever resizes while you scroll.
+// Once the timeline has scrolled past, the dock shows a slim copy at the top that
+// highlights the role being read.
 function timeline() {
   return `
-  <section id="timeline" aria-labelledby="timeline-h">
+  <section id="timeline" class="tl-section" aria-labelledby="timeline-h">
     <div class="section-head">
       <h2 id="timeline-h">Timeline</h2>
       <ul class="tl-legend" aria-label="Legend">
@@ -113,17 +117,13 @@ function timeline() {
       ${timelineTrack("full")}
     </div>
     <div class="tl-frame tl-narrow">${timelineTrack("compact")}</div>
-  </section>`;
-}
-
-// Slim copy of the timeline that sticks to the top while you read the experience,
-// highlighting the role in view. Hidden from screen readers: the page already has it.
-function stickyTimeline() {
-  return `
-  <div class="tl-sticky" aria-hidden="true" inert>
-    <div class="tl-sticky-inner">
-      <p class="tl-now"><span class="tl-now-role"></span><span class="tl-now-dates"></span></p>
-      ${timelineTrack("compact")}
+  </section>
+  <div class="tl-dock" aria-hidden="true">
+    <div class="tl-dock-bar">
+      <div class="tl-dock-inner">
+        <p class="tl-now"><span class="tl-now-role"></span><span class="tl-now-dates"></span></p>
+        ${timelineTrack("compact")}
+      </div>
     </div>
   </div>`;
 }
@@ -235,7 +235,6 @@ function lightbox() {
 
 /* ---------- Render ---------- */
 document.querySelector("#app").innerHTML = `
-  ${stickyTimeline()}
   ${header()}
   <main>
     ${timeline()}
@@ -250,20 +249,16 @@ document.querySelector("#app").innerHTML = `
 const sc = document.querySelector(".tl-scroll");
 sc.scrollLeft = sc.scrollWidth;
 
-/* Scroll position: show the sticky timeline once the big one is off screen, and
-   highlight the role (or education) currently in the middle of the viewport. */
-const sticky = document.querySelector(".tl-sticky");
-// The sticky copy is for pointer users; keyboard users already have the main timeline.
-sticky.querySelectorAll("a").forEach((a) => (a.tabIndex = -1));
-const nowRole = sticky.querySelector(".tl-now-role");
-const nowDates = sticky.querySelector(".tl-now-dates");
-const timelineSection = document.querySelector("#timeline");
-const pastTimeline = new IntersectionObserver(([entry]) => {
-  const below = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-  sticky.classList.toggle("is-visible", below);
-  sticky.toggleAttribute("inert", !below);
-});
-pastTimeline.observe(timelineSection);
+/* Show the docked strip once the full timeline has scrolled off the top. */
+const section = document.querySelector(".tl-section");
+const dock = document.querySelector(".tl-dock");
+const nowRole = dock.querySelector(".tl-now-role");
+const nowDates = dock.querySelector(".tl-now-dates");
+// The dock is for pointer users; keyboard and screen-reader users have the full timeline.
+dock.querySelectorAll("a").forEach((a) => (a.tabIndex = -1));
+new IntersectionObserver(([entry]) => {
+  dock.classList.toggle("is-visible", !entry.isIntersecting && entry.boundingClientRect.bottom <= 0);
+}).observe(section);
 
 const byId = Object.fromEntries(ENTRIES.map((e) => [e.id, e]));
 function setActive(id) {
