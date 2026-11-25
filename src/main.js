@@ -99,10 +99,6 @@ function timelineTrack(variant) {
       </div>`;
 }
 
-// The full timeline scrolls away normally. Right after it sits a zero-height sticky
-// "dock": it takes no space in the page, so nothing ever resizes while you scroll.
-// Once the timeline has scrolled past, the dock shows a slim copy at the top that
-// highlights the role being read.
 function timeline() {
   return `
   <section id="timeline" class="tl-section" aria-labelledby="timeline-h">
@@ -113,15 +109,7 @@ function timeline() {
       ${timelineTrack("full")}
     </div>
     <div class="tl-frame tl-narrow">${timelineTrack("compact")}</div>
-  </section>
-  <div class="tl-dock" aria-hidden="true">
-    <div class="tl-dock-bar">
-      <div class="tl-dock-inner">
-        <p class="tl-now"><span class="tl-now-role"></span><span class="tl-now-dates"></span></p>
-        ${timelineTrack("compact")}
-      </div>
-    </div>
-  </div>`;
+  </section>`;
 }
 
 /* ---------- Projects (rendered inside the Guayaba Games card) ---------- */
@@ -205,7 +193,7 @@ function skillsSection() {
       <h2>Education</h2>
       <div class="edu">
         ${logo(education)}
-        <p><strong>${esc(education.degree)}</strong><br>${esc(education.school)} · ${esc(education.years)}<br>
+        <p><strong>${esc(education.degree)}</strong><br>${esc(education.school)} · <span class="nowrap">${esc(education.years)}</span><br>
         <span class="muted">${esc(education.societies)}</span></p>
       </div>
     </div>
@@ -241,36 +229,22 @@ document.querySelector("#app").innerHTML = `
   ${lightbox()}
 `;
 
-// On narrow screens the timeline scrolls sideways; start at the most recent work.
+// On narrow screens the full timeline scrolls sideways; start at the most recent work.
 const sc = document.querySelector(".tl-scroll");
-sc.scrollLeft = sc.scrollWidth;
-
-/* Show the docked strip once the full timeline has scrolled off the top. */
-const section = document.querySelector(".tl-section");
-const dock = document.querySelector(".tl-dock");
-const nowRole = dock.querySelector(".tl-now-role");
-const nowDates = dock.querySelector(".tl-now-dates");
-// The dock is for pointer users; keyboard and screen-reader users have the full timeline.
-dock.querySelectorAll("a").forEach((a) => (a.tabIndex = -1));
-new IntersectionObserver(([entry]) => {
-  dock.classList.toggle("is-visible", !entry.isIntersecting && entry.boundingClientRect.bottom <= 0);
-}).observe(section);
+if (sc) sc.scrollLeft = sc.scrollWidth;
 
 const byId = Object.fromEntries(ENTRIES.map((e) => [e.id, e]));
 function setActive(id) {
   document.querySelectorAll(".tl-bar").forEach((b) => b.classList.toggle("is-active", b.dataset.ref === id));
   document.body.classList.toggle("has-active", Boolean(id));
-  const e = byId[id];
-  nowRole.textContent = e ? `${e.role}, ${e.org}` : "";
-  nowDates.textContent = e ? (e.years ?? range(e.start, e.end)) : "";
 }
-// The current section is the last one whose top has passed a line just under the
-// sticky bar. Anchor jumps land a card right at that line (see scroll-margin-top),
+// The current section is the last one whose top has passed a line near the top
+// of the screen. Anchor jumps land a card right at that line (see scroll-margin-top),
 // so clicking a bar always highlights the card you jumped to, however short it is.
 const sections = ENTRIES.map((e) => document.getElementById(e.id))
   .filter(Boolean)
   .sort((x, y) => (x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
-const LINE = 150; // px from the top of the viewport; scroll-margin-top is 7.5rem (120px)
+const LINE = 120; // px from the top of the viewport; scroll-margin-top is 1.5rem
 let ticking = false;
 // A bar click near the bottom of the page can't scroll its card up to the line,
 // so remember what was clicked and keep it highlighted until the reader scrolls on.

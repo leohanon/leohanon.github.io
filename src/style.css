@@ -234,9 +234,11 @@ h3 { margin: 0; font-size: 1.1rem; line-height: 1.3; }
 .card:not(:has(> .carousel)) { padding-top: 1.1rem; border-top: 3px solid var(--job); grid-column: 1 / -1; }
 
 /* ---------- Skills ---------- */
-.two-col { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
-.two-col > div:first-child { grid-column: span 2; }
-@media (max-width: 40rem) { .two-col > div:first-child { grid-column: auto; } }
+/* Skills take the flexible space; Education sizes to its content, so its lines
+   only wrap when the row truly runs out of room (then the two stack). */
+.two-col { display: flex; flex-wrap: wrap; gap: 2rem 3rem; }
+.two-col > div:first-child { flex: 1 1 26rem; min-width: 0; }
+.two-col > #education { flex: 0 1 auto; }
 .skills { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 1rem; margin: 0; }
 .skills dt { font-weight: 800; }
 .skills dd { margin: 0; color: var(--muted); }
@@ -317,31 +319,8 @@ h3 { margin: 0; font-size: 1.1rem; line-height: 1.3; }
 .tl-bar .seg-part { inset: 0; transition: background-color 0.2s, border-color 0.2s; }
 .tl-bar.is-active .seg-part { background: color-mix(in oklab, var(--accent) 35%, var(--surface)); border-color: var(--accent); }
 
-/* ---------- Docked timeline ---------- */
-/* Zero height, so it never shifts the page; its bar overflows below it. */
-.tl-dock { position: sticky; top: 0; height: 0; z-index: 10; }
-.tl-dock-bar {
-  position: absolute; top: 0; left: 50%; width: 100vw; translate: -50% 0;
-  background: color-mix(in oklab, var(--bg) 92%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-  opacity: 0; visibility: hidden;
-  transition: opacity 0.15s, visibility 0.15s;
-}
-.tl-dock.is-visible .tl-dock-bar { opacity: 1; visibility: visible; }
-@media (prefers-reduced-motion: reduce) { .tl-dock-bar { transition: none; } }
-.tl-dock-inner { max-width: 68rem; margin-inline: auto; padding: 0.45rem clamp(1rem, 4vw, 2.5rem) 0.3rem; }
-.tl-dock .tl-compact { padding: 0; }
-.tl-dock .tl-axis, .tl-dock .tl-today span { display: none; }
-.tl-dock .tl-row { height: 1.15rem; margin-block: 0.12rem; }
-.tl-dock .tl-logo { --tile: 0.85rem; border-radius: 3px; }
-.tl-now { display: flex; justify-content: space-between; gap: 1rem; margin: 0 0 0.25rem; font-size: 0.85rem; font-weight: 700; }
-.has-active .tl-dock .tl-bar:not(.is-active) { opacity: 0.45; }
-.tl-now-role { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tl-now-dates { color: var(--muted); font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
-
-/* Leave room for the sticky bar when jumping to a section. */
-.exp, .card, #education { scroll-margin-top: 7.5rem; }
+/* A little breathing room above a section when jumping to it. */
+.exp, .card, #education { scroll-margin-top: 1.5rem; }
 
 /* ---------- School vs work ---------- */
 /* Work carries the color; school is a quiet neutral with a dashed edge so it recedes. */
@@ -360,3 +339,5 @@ h3 { margin: 0; font-size: 1.1rem; line-height: 1.3; }
 .tl-legend .key.is-school { background: color-mix(in oklab, var(--muted) 12%, var(--surface)); border: 1px dashed color-mix(in oklab, var(--muted) 45%, var(--surface)); }
 /* The docked bar is 100vw wide; clip (not hide) the overflow so sticky still works. */
 body { overflow-x: clip; }
+
+.nowrap { white-space: nowrap; }
