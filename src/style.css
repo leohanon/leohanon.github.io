@@ -1,0 +1,337 @@
+:root {
+  --bg-light: #fbfaf7;
+  --bg-dark: #14161a;
+  --surface-light: #ffffff;
+  --surface-dark: #1d2026;
+  --text-light: #23262b;
+  --text-dark: #e8e6e1;
+  --muted-light: #5d636c;
+  --muted-dark: #a3a8b0;
+  --line-light: #e4e1da;
+  --line-dark: #30343c;
+  --accent-light: #1d5fd1;
+  --accent-dark: #7fb0ff;
+  --job-light: #3b5b8c;
+  --job-dark: #7d9fd4;
+  --client-light: #b0650c;
+  --client-dark: #f0a64a;
+  --product-light: #2f7d55;
+  --product-dark: #6fcf9a;
+
+  --bg: var(--bg-light);
+  --surface: var(--surface-light);
+  --text: var(--text-light);
+  --muted: var(--muted-light);
+  --line: var(--line-light);
+  --accent: var(--accent-light);
+  --job: var(--job-light);
+  --client: var(--client-light);
+  --product: var(--product-light);
+
+  @media (prefers-color-scheme: dark) {
+    --bg: var(--bg-dark);
+    --surface: var(--surface-dark);
+    --text: var(--text-dark);
+    --muted: var(--muted-dark);
+    --line: var(--line-dark);
+    --accent: var(--accent-dark);
+    --job: var(--job-dark);
+    --client: var(--client-dark);
+    --product: var(--product-dark);
+  }
+
+  @supports (color: light-dark(white, black)) {
+    --bg: light-dark(var(--bg-light), var(--bg-dark));
+    --surface: light-dark(var(--surface-light), var(--surface-dark));
+    --text: light-dark(var(--text-light), var(--text-dark));
+    --muted: light-dark(var(--muted-light), var(--muted-dark));
+    --line: light-dark(var(--line-light), var(--line-dark));
+    --accent: light-dark(var(--accent-light), var(--accent-dark));
+    --job: light-dark(var(--job-light), var(--job-dark));
+    --client: light-dark(var(--client-light), var(--client-dark));
+    --product: light-dark(var(--product-light), var(--product-dark));
+  }
+
+  color-scheme: light dark;
+  accent-color: var(--accent);
+  --label-w: 9.5rem;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+
+a { color: var(--accent); text-underline-offset: 0.15em; }
+
+.hero, main, .site-footer {
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ---------- Hero ---------- */
+.hero { padding-block: clamp(2.5rem, 7vw, 5rem) 1.5rem; }
+.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  line-height: 1.05;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.02em;
+}
+.hero-title { margin: 0; font-size: 1.15rem; color: var(--muted); font-weight: 600; }
+.hero-summary { max-width: 46rem; font-size: 1.1rem; margin: 1.25rem 0 1.5rem; text-wrap: pretty; }
+.hero-links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.hero-links a {
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  text-decoration: none;
+  font-weight: 700;
+}
+.hero-links a:hover { border-color: var(--accent); }
+
+/* ---------- Sections ---------- */
+main > section { padding-block: 2rem; border-top: 1px solid var(--line); }
+h2 { font-size: 1.5rem; margin: 0 0 0.75rem; letter-spacing: -0.01em; }
+h3 { margin: 0; font-size: 1.1rem; line-height: 1.3; }
+.section-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.section-head h2 { margin: 0; }
+.section-note { color: var(--muted); margin: 0.5rem 0 1rem; }
+
+/* ---------- Timeline ---------- */
+.tl-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  overscroll-behavior-x: contain;
+}
+.tl-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tl { position: relative; min-width: 44rem; padding: 0.4rem 1.25rem 1.9rem; }
+.tl-axis { position: relative; height: 1.6rem; }
+.tl-axis span { position: absolute; top: 0.2rem; transform: translateX(-50%); font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tl-body { position: relative; padding-block: 0.25rem; }
+.tl-gridline { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--line); }
+.tl-today { position: absolute; top: -0.4rem; bottom: 0; border-left: 2px solid var(--accent); z-index: 2; }
+.tl-today span {
+  position: absolute; bottom: -1.4rem; left: 0; transform: translateX(-50%);
+  font-size: 0.7rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+.tl-row { position: relative; height: 2.3rem; margin-block: 0.35rem; }
+.tl-bar {
+  position: absolute; top: 0; bottom: 0;
+  min-width: 0.6rem;
+  border-radius: 7px;
+  overflow: hidden;
+  color: var(--text); text-decoration: none;
+  z-index: 1;
+}
+.seg-part { position: absolute; top: 0; bottom: 0; background: color-mix(in oklab, var(--job) 30%, var(--surface)); border: 1px solid color-mix(in oklab, var(--job) 55%, var(--surface)); border-radius: inherit; }
+.tl-bar.is-ongoing { mask-image: linear-gradient(to right, black calc(100% - 0.9rem), transparent); }
+.tl-bar:hover .seg-part, .tl-bar:focus-visible .seg-part { border-color: var(--job); }
+.tl-bar:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.tl-inner, .tl-ext {
+  position: absolute; top: 0; bottom: 0;
+  display: flex; align-items: center; gap: 0.4rem;
+  padding-inline: 0.45rem;
+  font-size: 0.82rem; font-weight: 700; white-space: nowrap;
+}
+.tl-inner { left: 0; right: 0; }
+.tl-name { overflow: hidden; text-overflow: ellipsis; }
+.tl-ext { pointer-events: none; z-index: 1; }
+
+/* ---------- Logos ---------- */
+.logo, .tl-logo {
+  flex: none; display: block; overflow: hidden;
+  width: var(--tile); height: var(--tile);
+  background: var(--logo-bg);
+  /* --logo-pad is a fraction of the tile, so the mark keeps the same proportions at any size. */
+  padding: calc(var(--tile) * var(--logo-pad));
+  box-shadow: inset 0 0 0 1px rgb(127 127 127 / 0.25);
+}
+.logo { --tile: 2.75rem; border-radius: 10px; }
+.tl-logo { --tile: 1.35rem; border-radius: 4px; }
+.logo img, .tl-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+/* ---------- Experience ---------- */
+.exp-list { display: grid; gap: 1rem; }
+.exp {
+  display: grid; gap: 0.4rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  scroll-margin-top: 1rem;
+}
+.exp > header { display: flex; align-items: center; gap: 0.85rem; }
+.exp-title { flex: 1; display: flex; justify-content: space-between; align-items: baseline; gap: 0.1rem 1rem; flex-wrap: wrap; }
+.exp-body { padding-left: calc(2.75rem + 0.85rem); }
+@media (max-width: 40rem) { .exp-body { padding-left: 0; } }
+.exp.has-projects .cards { margin-top: 0.75rem; }
+.card h4 { margin: 0; font-size: 1.05rem; }
+.exp .card { background: var(--bg); }
+.exp .org { color: var(--muted); }
+.dates { margin: 0; color: var(--muted); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.blurb { margin: 0; color: var(--muted); }
+.exp ul:not(.chips), .card ul:not(.chips, .strip) { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.exp li, .card li { margin-block: 0.2rem; }
+.jump { margin: 0.4rem 0 0; font-weight: 700; }
+:target { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.6rem 0 0; padding: 0; }
+.chips li { margin: 0; font-size: 0.78rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); }
+
+/* ---------- Project cards ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr)); gap: 1.25rem; }
+.card {
+  display: grid; align-content: start; gap: 0.6rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0 0 1.1rem;
+  overflow: hidden;
+  scroll-margin-top: 1rem;
+}
+.card > :not(.carousel) { padding-inline: 1.15rem; }
+.card p { margin: 0; }
+.kind { color: var(--muted); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.2rem !important; }
+.card footer { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font-weight: 700; }
+
+.strip {
+  list-style: none; margin: 0; padding: 0.9rem;
+  display: flex; gap: 0.6rem;
+  overflow-x: auto;
+  background: color-mix(in oklab, var(--bg) 70%, var(--line));
+  scrollbar-width: thin;
+}
+.strip li { flex: none; }
+.thumb { display: block; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 8px; }
+.thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.thumb img { display: block; border-radius: 8px; object-fit: cover; box-shadow: 0 1px 3px rgb(0 0 0 / 0.2); }
+.strip-tall .thumb img { height: 15rem; width: auto; aspect-ratio: auto; }
+.strip-wide .thumb img { height: 9.5rem; width: auto; aspect-ratio: 16 / 9; }
+/* Mixed shapes (wide and tall screenshots): same height, each keeps its own ratio. */
+.strip-auto .thumb img { height: 13rem; width: auto; }
+
+/* Cards without screenshots are text-only: no empty media area, just top padding
+   and an accent rule so they still sit comfortably next to cards with media. */
+.card:not(:has(> .carousel)) { padding-top: 1.1rem; border-top: 3px solid var(--job); grid-column: 1 / -1; }
+
+/* ---------- Skills ---------- */
+.two-col { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.two-col > div:first-child { grid-column: span 2; }
+@media (max-width: 40rem) { .two-col > div:first-child { grid-column: auto; } }
+.skills { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 1rem; margin: 0; }
+.skills dt { font-weight: 800; }
+.skills dd { margin: 0; color: var(--muted); }
+@media (max-width: 30rem) { .skills { grid-template-columns: 1fr; } .skills dd { margin-bottom: 0.5rem; } }
+
+.site-footer { color: var(--muted); font-size: 0.85rem; padding-block: 2rem 3rem; border-top: 1px solid var(--line); }
+
+/* ---------- Lightbox ---------- */
+#lightbox {
+  padding: 0; border: 0; border-radius: 14px;
+  background: var(--surface); color: var(--text);
+  max-width: min(92vw, 70rem); max-height: 92dvh;
+  overflow: hidden;
+}
+#lightbox::backdrop { background: rgb(0 0 0 / 0.75); backdrop-filter: blur(3px); }
+#lightbox figure { margin: 0; display: grid; }
+#lightbox img { display: block; max-width: 100%; max-height: calc(92dvh - 6rem); width: auto; height: auto; margin-inline: auto; object-fit: contain; }
+#lightbox figcaption { padding: 0.6rem 1rem 0; color: var(--muted); text-align: center; }
+.lb-controls { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.6rem 1rem 0.9rem; }
+.lb-controls form { margin: 0; }
+.lb-controls button {
+  font: inherit; font-weight: 700; cursor: pointer;
+  min-width: 2.75rem; min-height: 2.75rem;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--text);
+  padding: 0 1rem;
+}
+#lb-count { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 3.5rem; text-align: center; }
+
+@media (max-width: 40rem) {
+    .strip-tall .thumb img { height: 13rem; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* ---------- Carousel ---------- */
+.carousel { position: relative; }
+.car-btn {
+  position: absolute; top: 50%; translate: 0 -50%; z-index: 1;
+  width: 2.5rem; height: 2.5rem; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  font: inherit; font-size: 1.4rem; line-height: 1; cursor: pointer;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
+  display: grid; place-items: center; padding-bottom: 0.15rem;
+}
+.car-btn[hidden] { display: none; }
+.car-btn.prev { left: 0.5rem; }
+.car-btn.next { right: 0.5rem; }
+.car-btn:hover { border-color: var(--accent); }
+.car-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Education ---------- */
+.edu { display: flex; gap: 0.85rem; align-items: flex-start; }
+.edu p { margin: 0; }
+.muted { color: var(--muted); font-size: 0.9rem; }
+
+/* Grid items default to min-width:auto, so a wide screenshot strip would
+   stretch its card past the column. Let cards and strips shrink instead. */
+.cards > .card, .card > *, .exp, .exp > * { min-width: 0; }
+
+/* ---------- Timeline layouts ---------- */
+.tl-frame { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.tl-narrow { display: none; }
+@media (max-width: 44rem) {
+  .tl-wide { display: none; }
+  .tl-narrow { display: block; }
+}
+.tl-compact { min-width: 0; padding: 0.3rem 0.75rem 0.6rem; }
+.tl-compact .tl-axis { height: 1.4rem; }
+.tl-compact .tl-axis span { font-size: 0.72rem; }
+.tl-compact .tl-row { height: 1.75rem; margin-block: 0.3rem; }
+.tl-compact .tl-inner { justify-content: center; padding-inline: 0; }
+.tl-compact .tl-logo { --tile: 1.2rem; }
+.tl-compact .tl-today { top: -0.2rem; }
+
+/* Highlight the role currently being read, in both timelines. */
+.tl-bar .seg-part { inset: 0; transition: background-color 0.2s, border-color 0.2s; }
+.tl-bar.is-active .seg-part { background: color-mix(in oklab, var(--accent) 35%, var(--surface)); border-color: var(--accent); }
+.has-active .tl-sticky .tl-bar:not(.is-active) { opacity: 0.45; }
+
+/* ---------- Sticky "where am I" timeline ---------- */
+.tl-sticky {
+  position: fixed; inset: 0 0 auto 0; z-index: 10;
+  background: color-mix(in oklab, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  translate: 0 -105%;
+  transition: translate 0.25s ease;
+}
+.tl-sticky.is-visible { translate: 0 0; }
+@media (prefers-reduced-motion: reduce) { .tl-sticky { transition: none; } }
+.tl-sticky-inner { max-width: 68rem; margin-inline: auto; padding: 0.4rem clamp(1rem, 4vw, 2.5rem) 0.2rem; }
+.tl-sticky .tl-compact { padding: 0 0 0.3rem; }
+.tl-sticky .tl-row { height: 1.35rem; margin-block: 0.15rem; }
+.tl-sticky .tl-logo { --tile: 0.95rem; border-radius: 3px; }
+.tl-sticky .tl-axis { height: 1.1rem; }
+.tl-sticky .tl-axis span { top: 0; }
+.tl-now { margin: 0 0 0.1rem; display: flex; justify-content: space-between; gap: 1rem; font-size: 0.85rem; font-weight: 700; min-height: 1.3em; }
+.tl-now-role { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tl-now-dates { color: var(--muted); font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Leave room for the sticky bar when jumping to a section. */
+.exp, .card, #education { scroll-margin-top: 7.5rem; }
