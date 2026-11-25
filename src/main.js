@@ -37,7 +37,7 @@ function header() {
 }
 
 /* ---------- Timeline: one track, overlapping roles stack into rows ---------- */
-const ENTRIES = [...experience, { ...education, role: education.degree, org: education.school }];
+const ENTRIES = [...experience, { ...education, role: education.degree, org: education.school, kind: "school" }];
 // Equal breathing room on both ends: a few months before the first start and after today.
 const FROM = Math.min(...ENTRIES.map((e) => months(e.start))) - 3;
 const TO = months(TODAY) + 3;
@@ -78,7 +78,8 @@ function timelineTrack(variant) {
       side === "in"
         ? ""
         : `<span class="tl-ext" aria-hidden="true" style="${side === "left" ? `right:${100 - left}%` : `left:${left + width}%`}">${label}</span>`;
-    return `<a class="tl-bar${ongoing}" data-ref="${e.id}" href="#${e.id}" style="left:${left}%;width:${width}%" title="${esc(title)}" aria-label="${esc(title)}">
+    const kind = e.kind === "school" ? " is-school" : "";
+    return `<a class="tl-bar${ongoing}${kind}" data-ref="${e.id}" href="#${e.id}" style="left:${left}%;width:${width}%" title="${esc(title)}" aria-label="${esc(title)}">
         <span class="seg-part"></span>${side === "in" ? `<span class="tl-inner">${label}</span>` : ""}</a>${outside}`;
   };
 
@@ -101,7 +102,13 @@ function timelineTrack(variant) {
 function timeline() {
   return `
   <section id="timeline" aria-labelledby="timeline-h">
-    <h2 id="timeline-h">Timeline</h2>
+    <div class="section-head">
+      <h2 id="timeline-h">Timeline</h2>
+      <ul class="tl-legend" aria-label="Legend">
+        <li><span class="key is-school" aria-hidden="true"></span>School</li>
+        <li><span class="key" aria-hidden="true"></span>Work</li>
+      </ul>
+    </div>
     <div class="tl-scroll tl-wide" tabindex="0" role="region" aria-label="Career timeline">
       ${timelineTrack("full")}
     </div>

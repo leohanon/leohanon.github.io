@@ -16,6 +16,8 @@
   --client-light: #b0650c;
   --client-dark: #f0a64a;
   --product-light: #2f7d55;
+  --school-light: #b07d0a;
+  --school-dark: #f0c24a;
   --product-dark: #6fcf9a;
 
   --bg: var(--bg-light);
@@ -27,6 +29,7 @@
   --job: var(--job-light);
   --client: var(--client-light);
   --product: var(--product-light);
+  --school: var(--school-light);
 
   @media (prefers-color-scheme: dark) {
     --bg: var(--bg-dark);
@@ -38,6 +41,7 @@
     --job: var(--job-dark);
     --client: var(--client-dark);
     --product: var(--product-dark);
+    --school: var(--school-dark);
   }
 
   @supports (color: light-dark(white, black)) {
@@ -50,6 +54,7 @@
     --job: light-dark(var(--job-light), var(--job-dark));
     --client: light-dark(var(--client-light), var(--client-dark));
     --product: light-dark(var(--product-light), var(--product-dark));
+    --school: light-dark(var(--school-light), var(--school-dark));
   }
 
   color-scheme: light dark;
@@ -336,3 +341,16 @@ h3 { margin: 0; font-size: 1.1rem; line-height: 1.3; }
 
 /* Leave room for the sticky bar when jumping to a section. */
 .exp, .card, #education { scroll-margin-top: 7.5rem; }
+
+/* ---------- School vs work ---------- */
+.tl-bar.is-school .seg-part { background: color-mix(in oklab, var(--school) 30%, var(--surface)); border-color: color-mix(in oklab, var(--school) 60%, var(--surface)); }
+.tl-bar.is-school.is-active .seg-part { background: color-mix(in oklab, var(--school) 45%, var(--surface)); border-color: var(--school); }
+#timeline .section-head { margin-bottom: 0.75rem; }
+.tl-legend { list-style: none; margin: 0; padding: 0; display: flex; gap: 1rem; color: var(--muted); font-size: 0.85rem; font-weight: 700; }
+.tl-legend li { display: flex; align-items: center; gap: 0.4rem; }
+.tl-legend .key {
+  width: 1.4rem; height: 0.8rem; border-radius: 3px;
+  background: color-mix(in oklab, var(--job) 30%, var(--surface));
+  border: 1px solid color-mix(in oklab, var(--job) 55%, var(--surface));
+}
+.tl-legend .key.is-school { background: color-mix(in oklab, var(--school) 30%, var(--surface)); border-color: color-mix(in oklab, var(--school) 60%, var(--surface)); }
